@@ -70,7 +70,7 @@ public class MoPubInterstitial implements CustomEventInterstitialAdapter.CustomE
     @NonNull private MoPubInterstitialView mInterstitialView;
     @Nullable private CustomEventInterstitialAdapter mCustomEventInterstitialAdapter;
     @Nullable private InterstitialAdListener mInterstitialAdListener;
-    @NonNull private Activity mActivity;
+    @NonNull private Context mAppContext;
     @NonNull private Handler mHandler;
     @NonNull private final Runnable mAdExpiration;
     @NonNull private volatile InterstitialState mCurrentInterstitialState;
@@ -83,10 +83,10 @@ public class MoPubInterstitial implements CustomEventInterstitialAdapter.CustomE
         void onInterstitialDismissed(MoPubInterstitial interstitial);
     }
 
-    public MoPubInterstitial(@NonNull final Activity activity, @NonNull final String adUnitId) {
-        mActivity = activity;
+    public MoPubInterstitial(@NonNull final Context context, @NonNull final String adUnitId) {
+        mAppContext = context.getApplicationContext();
 
-        mInterstitialView = new MoPubInterstitialView(mActivity);
+        mInterstitialView = new MoPubInterstitialView(mAppContext);
         mInterstitialView.setAdUnitId(adUnitId);
 
         mCurrentInterstitialState = IDLE;
@@ -346,8 +346,8 @@ public class MoPubInterstitial implements CustomEventInterstitialAdapter.CustomE
     }
 
     @NonNull
-    public Activity getActivity() {
-        return mActivity;
+    public Context getContext() {
+        return mAppContext;
     }
 
     @Nullable
