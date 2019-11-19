@@ -287,8 +287,8 @@ public class MoPubInterstitial implements CustomEventInterstitialAdapter.CustomE
     }
 
     private void updatedInsets() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            final Window window = mActivity.getWindow();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P && mAppContext instanceof Activity) {
+            final Window window = ((Activity)mAppContext).getWindow();
             if (window == null) {
                 return;
             }
@@ -554,7 +554,7 @@ public class MoPubInterstitial implements CustomEventInterstitialAdapter.CustomE
 
         @Override
         protected Point resolveAdSize() {
-            return DeviceUtils.getDeviceDimensions(mActivity);
+            return DeviceUtils.getDeviceDimensions(mAppContext);
         }
     }
 

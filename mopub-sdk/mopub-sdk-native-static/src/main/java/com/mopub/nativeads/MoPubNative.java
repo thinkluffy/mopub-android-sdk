@@ -109,6 +109,10 @@ public class MoPubNative {
         };
     }
 
+    public void resetAdRenders() {
+        mAdRendererRegistry = new AdRendererRegistry();
+    }
+
     /**
      * Registers an ad renderer for rendering a specific native ad format.
      * Note that if multiple ad renderers support a specific native ad format, the first
