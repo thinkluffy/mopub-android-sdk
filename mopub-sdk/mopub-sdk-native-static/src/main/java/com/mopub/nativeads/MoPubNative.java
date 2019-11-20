@@ -113,6 +113,10 @@ public class MoPubNative {
         mAdRendererRegistry = new AdRendererRegistry();
     }
 
+    public MoPubAdRenderer chooseAdRenderer(BaseNativeAd baseNativeAd) {
+        return mAdRendererRegistry.getRendererForAd(baseNativeAd);
+    }
+
     /**
      * Registers an ad renderer for rendering a specific native ad format.
      * Note that if multiple ad renderers support a specific native ad format, the first

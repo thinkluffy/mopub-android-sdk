@@ -57,7 +57,7 @@ public class NativeAd {
 
     @NonNull private final Context mContext;
     @NonNull private final BaseNativeAd mBaseNativeAd;
-    @NonNull private final MoPubAdRenderer mMoPubAdRenderer;
+    @NonNull private MoPubAdRenderer mMoPubAdRenderer;
     @NonNull private final Set<String> mImpressionTrackers;
     @NonNull private final Set<String> mClickTrackers;
     @NonNull private final String mAdUnitId;
@@ -169,6 +169,11 @@ public class NativeAd {
     @NonNull
     public MoPubAdRenderer getMoPubAdRenderer() {
         return mMoPubAdRenderer;
+    }
+
+
+    public void setMoPubAdRenderer(MoPubAdRenderer adRenderer) {
+        mMoPubAdRenderer = adRenderer;
     }
 
     // Lifecycle Handlers
