@@ -946,7 +946,6 @@ public class MoPubRewardedVideoManager {
         return null;
     }
 
-    @Deprecated
     @VisibleForTesting
     @Nullable
     static RewardedAdsLoaders getAdRequestStatusMapping() {

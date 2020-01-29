@@ -31,12 +31,9 @@ public class MoPubRewardedVideos {
         MoPubRewardedVideoManager.init(activity, mediationSettings);
     }
 
-    /**
-     * Use MoPub#initializeSdk instead.
-     */
     @ReflectionTarget
     @SuppressWarnings("unchecked")
-    private static void initializeRewardedVideo(@NonNull final Activity activity,
+    public static void initializeRewardedVideo(@NonNull final Activity activity,
             @NonNull final SdkConfiguration sdkConfiguration) {
         Preconditions.checkNotNull(activity);
         Preconditions.checkNotNull(sdkConfiguration);
@@ -55,6 +52,15 @@ public class MoPubRewardedVideos {
         Preconditions.checkNotNull(adUnitId);
 
         MoPubRewardedVideoManager.loadVideo(adUnitId, null, mediationSettings);
+    }
+
+    public static boolean isLoading(@NonNull String adUnitId) {
+        RewardedAdsLoaders loaders = MoPubRewardedVideoManager.getAdRequestStatusMapping();
+        if (loaders == null) {
+            return false;
+        }
+
+        return loaders.isLoading(adUnitId);
     }
 
     @ReflectionTarget
