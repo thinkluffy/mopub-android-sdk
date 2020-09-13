@@ -35,9 +35,9 @@ public class FullscreenAdAdapter extends AdAdapter {
         mExtras = adData.getExtras();
         mDspCreativeId = adData.getDspCreativeId();
 
-        if (!(context instanceof Activity)) {
-            throw new IllegalArgumentException("An Activity Context is required.");
-        }
+//        if (!(context instanceof Activity)) {
+//            throw new IllegalArgumentException("An Activity Context is required.");
+//        }
 
         MoPubLog.log(CUSTOM, "Attempting to invoke base ad: " + className);
         try {

@@ -12,6 +12,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Handler;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowInsets;
@@ -777,8 +778,9 @@ public class AdViewController implements AdLifecycleListener.LoadListener, AdLif
                 );
                 mAdAdapter.load(this);
             } catch (Exception e) {
-                MoPubLog.log(ERROR_WITH_THROWABLE, "Error loading ad adapter", e);
+                MoPubLog.log(ERROR_WITH_THROWABLE, "Error loading ad adapter: " + adapterClassName, e);
                 loadFailUrl(ADAPTER_NOT_FOUND);
+                Log.e(MoPubLog.LOGTAG, "Error loading ad adapter: " + adapterClassName, e);
             }
         } else {
             MoPubLog.log(CUSTOM_WITH_THROWABLE,

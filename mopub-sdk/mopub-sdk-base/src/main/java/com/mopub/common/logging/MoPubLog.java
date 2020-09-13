@@ -5,6 +5,7 @@
 package com.mopub.common.logging;
 
 import android.text.TextUtils;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -12,6 +13,8 @@ import androidx.core.util.Pair;
 
 import com.mopub.common.Preconditions;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -134,6 +137,13 @@ public class MoPubLog {
     private static void log(@NonNull Pair<String, String> classAndMethodNames, @Nullable String identifier,
                             @Nullable  MPLogEventType logEventType, @Nullable Object... args) {
         Preconditions.checkNotNull(classAndMethodNames);
+        if (getLogLevel() == LogLevel.DEBUG && args != null && args.length > 0 && args[0] instanceof Throwable)  {
+            StringWriter sw = new StringWriter();
+            ((Throwable)args[0]).printStackTrace(new PrintWriter(sw));
+            String exceptionAsString = sw.toString();
+            Log.e(MoPubLog.LOGTAG, String.format("[%s][%s] %s", classAndMethodNames.first,
+                    classAndMethodNames.second, exceptionAsString));
+        }
 
         if (logEventType == null) {
             return;
