@@ -32,6 +32,7 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.TreeMap;
 
 import static com.mopub.common.logging.MoPubLog.ConsentLogEvent.LOAD_ATTEMPTED;
 import static com.mopub.common.logging.MoPubLog.ConsentLogEvent.LOAD_FAILED;
@@ -315,11 +316,7 @@ public class PersonalInfoManager {
         return mPersonalInfoData.getConsentStatus();
     }
 
-    /**
-     * For use by whitelisted publishers only. Grants consent to collect personally identifiable
-     * information for the current user.
-     */
-    public void grantConsent() {
+    public void grantConsent(boolean careWhitelist) {
         if (ClientMetadata.getInstance(mAppContext).getMoPubIdentifier().getAdvertisingInfo()
                 .isDoNotTrack()) {
             MoPubLog.log(CUSTOM, "Cannot grant consent because Do Not Track is on.");
@@ -329,6 +326,12 @@ public class PersonalInfoManager {
         if (mPersonalInfoData.isWhitelisted()) {
             attemptStateTransition(ConsentStatus.EXPLICIT_YES,
                     ConsentChangeReason.GRANTED_BY_WHITELISTED_PUB);
+
+        } else if (!careWhitelist) {
+            MoPubLog.log(CUSTOM, "Not in whitelist, but do not care about it");
+            attemptStateTransition(ConsentStatus.EXPLICIT_YES,
+                    ConsentChangeReason.GRANTED_BY_WHITELISTED_PUB);
+
         } else {
             MoPubLog.log(CUSTOM, "You do not have approval to use the grantConsent API. Please reach out " +
                     "to your account teams or support@mopub.com for more information.");
@@ -336,6 +339,14 @@ public class PersonalInfoManager {
                     ConsentChangeReason.GRANTED_BY_NOT_WHITELISTED_PUB);
         }
         requestSync(true);
+    }
+
+    /**
+     * For use by whitelisted publishers only. Grants consent to collect personally identifiable
+     * information for the current user.
+     */
+    public void grantConsent() {
+        grantConsent(true);
     }
 
     /**
@@ -352,7 +363,7 @@ public class PersonalInfoManager {
         requestSync(true);
     }
 
-    void changeConsentStateFromDialog(@NonNull final ConsentStatus consentStatus) {
+    public void changeConsentStateFromDialog(@NonNull final ConsentStatus consentStatus) {
         Preconditions.checkNotNull(consentStatus);
 
         switch (consentStatus) {
