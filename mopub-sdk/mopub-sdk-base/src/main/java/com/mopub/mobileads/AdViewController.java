@@ -780,7 +780,6 @@ public class AdViewController implements AdLifecycleListener.LoadListener, AdLif
             } catch (Exception e) {
                 MoPubLog.log(ERROR_WITH_THROWABLE, "Error loading ad adapter: " + adapterClassName, e);
                 loadFailUrl(ADAPTER_NOT_FOUND);
-                Log.e(MoPubLog.LOGTAG, "Error loading ad adapter: " + adapterClassName, e);
             }
         } else {
             MoPubLog.log(CUSTOM_WITH_THROWABLE,
