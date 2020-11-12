@@ -70,7 +70,7 @@ public class MoPubInterstitial implements MoPubAd {
     @Nullable protected AdViewController mAdViewController;
     @Nullable private FullscreenAdAdapter mFullscreenAdapter;
     @Nullable private InterstitialAdListener mInterstitialAdListener;
-    @NonNull private Context mAppContext;
+    @NonNull private Context mContext;
     @NonNull private Handler mHandler;
     @NonNull private volatile InterstitialState mCurrentInterstitialState;
 
@@ -83,9 +83,9 @@ public class MoPubInterstitial implements MoPubAd {
     }
 
     public MoPubInterstitial(@NonNull final Context context, @NonNull final String adUnitId) {
-        mAppContext = context.getApplicationContext();
+        mContext = context;
 
-        final AdViewController adViewController = AdViewControllerFactory.create(mAppContext, this);
+        final AdViewController adViewController = AdViewControllerFactory.create(mContext, this);
         adViewController.setShouldAllowAutoRefresh(false);
         setAdViewController(adViewController);
         setAdUnitId(adUnitId);
@@ -260,8 +260,8 @@ public class MoPubInterstitial implements MoPubAd {
     }
 
     private void updatedInsets() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P && mAppContext instanceof Activity) {
-            final Window window = ((Activity)mAppContext).getWindow();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P && mContext instanceof Activity) {
+            final Window window = ((Activity) mContext).getWindow();
             if (window == null) {
                 return;
             }
@@ -316,7 +316,7 @@ public class MoPubInterstitial implements MoPubAd {
 
     @NonNull
     public Context getContext() {
-        return mAppContext;
+        return mContext;
     }
 
     public void destroy() {
@@ -461,7 +461,7 @@ public class MoPubInterstitial implements MoPubAd {
     @Override
     @NonNull
     public Point resolveAdSize() {
-        return DeviceUtils.getDeviceDimensions(mAppContext);
+        return DeviceUtils.getDeviceDimensions(mContext);
     }
 
     @VisibleForTesting
